@@ -26,7 +26,7 @@ const Post = () => {
     if(!post) return <Navigate to="/" />;
 
     return(
-    <div>
+    <div className={styles.postContent}>
         <div className="row">
             <div className="col">
                 <h1 className={styles.title}>{post.title}</h1>

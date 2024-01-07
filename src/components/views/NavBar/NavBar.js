@@ -8,7 +8,7 @@ const NavBar = () => {
     return(
     <Navbar variant="dark" bg="primary" data-bs-theme="light" className={styles.bgprimary}>
     <Container>
-        <Navbar.Brand href="/">Blog.app</Navbar.Brand>
+        <Navbar.Brand>Blog.app</Navbar.Brand>
         <Nav>
             <Nav.Link as={NavLink} to="/">Home</Nav.Link>
             <Nav.Link as={NavLink} to="/about">About</Nav.Link>

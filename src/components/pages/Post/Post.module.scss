@@ -26,7 +26,6 @@ a.butLinkRed {
     &:hover {
         color: $color-light;
     }
-
 }
 
 a.butLinkGreen {
@@ -37,12 +36,14 @@ a.butLinkGreen {
     &:hover {
         color: $color-light;
     }
-
-
 }
 
 .right {
     float: right;
     padding: 0px;
     margin: 15px 0 0 15px;
+}
+
+.postContent {
+    padding-bottom: 40px;
 }
