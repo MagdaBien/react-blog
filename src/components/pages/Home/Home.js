@@ -7,11 +7,11 @@ import Nav from 'react-bootstrap/Nav';
 const Home = () => {
     return(
     <div>
-        <div class="row">
-            <div class="col">
+        <div className="row">
+            <div className="col">
                 <h1>All posts</h1>
             </div>
-            <div class="col">
+            <div className="col">
                 <Button variant="outline-info" className={styles.right}>
                     <Nav.Link as={NavLink} to="/post/add" className={styles.butLink}>Add post</Nav.Link>
                 </Button>

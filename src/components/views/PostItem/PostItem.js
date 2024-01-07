@@ -8,7 +8,7 @@ import clsx from 'clsx';
 const PostItem = (props) => {
     const url = "/post/" + props.id;
     return(
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4">
     <Card className={clsx(styles.cardArticle)}>
         <Card.Body>
             <h5 className={styles.cardTitle}>{props.title}</h5>
