@@ -1,4 +1,3 @@
-
 import { useParams } from 'react-router';
 import styles from './Post.module.scss';
 import { useSelector } from 'react-redux';
@@ -6,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import { getPostById } from '../../../redux/postsRedux';
+import { getCategoryById } from '../../../redux/categoriesRedux';
 import { Navigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
@@ -18,6 +18,8 @@ const Post = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const post = useSelector(state => getPostById(state, id));
+    const category = useSelector(state => getCategoryById(state, post.categoryId));
+  
     const url = "/post/edit/" + id;
 
     const [show, setShow] = useState(false);
@@ -44,7 +46,8 @@ const Post = () => {
         <div>
             <p className={styles.author}>
                 <span className={styles.bold}>Autor:</span> {post.author}<br />
-                <span className={styles.bold}>Published: </span> {date2string(post.publishedDate, '-')}
+                <span className={styles.bold}>Published: </span> {date2string(post.publishedDate, '-')}<br />
+                <span className={styles.bold}>Category:</span> {category.categoryName}
             </p>
             <p dangerouslySetInnerHTML={{ __html: post.content }} className={styles.description} />
         </div>

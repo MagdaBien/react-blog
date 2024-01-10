@@ -13,12 +13,12 @@ const Home = () => {
             </div>
             <div className="col">
                 <Button variant="outline-info" className={styles.right}>
-                    <Nav.Link as={NavLink} to="/post/add" className={styles.butLink}>Add post</Nav.Link>
+                    <Nav.Link as={NavLink} to={"/post/add/all"} className={styles.butLink}>Add post</Nav.Link>
                 </Button>
             </div>
         </div>
         <div>
-            <AllPosts></AllPosts>
+            <AllPosts categoryId="all"></AllPosts>
         </div>
     </div>
     );

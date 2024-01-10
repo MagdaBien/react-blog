@@ -6,13 +6,16 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DatePicker from "react-datepicker";
-import date2string from '../../../utils/dateToStr';
 import { useForm } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
+import { getAllCategories } from '../../../redux/categoriesRedux';
+import { useSelector } from 'react-redux';
+
 
 const PostForm = ({actionHandle, buttonName, formState}) => {
 
-    const { register, handleSubmit: validate, formState: { errors } } = useForm();    
+    const { register, handleSubmit: validate, formState: { errors } } = useForm();   
+    const categoriesList = useSelector(getAllCategories); 
 
     const [form, setForm] = useState({
         ...formState
@@ -21,6 +24,7 @@ const PostForm = ({actionHandle, buttonName, formState}) => {
     const [dateError, setDateError] = useState(false);
 
     const updateFields = e => {
+        //console.log(e.target.value);
         setForm({
             ...form,
             [e.target.id]: e.target.value,
@@ -35,7 +39,6 @@ const PostForm = ({actionHandle, buttonName, formState}) => {
     } 
     
     const updateDate = e => {
-        console.log(e, date2string(e, '-'));
         setForm({
             ...form,
             publishedDate: e,
@@ -70,7 +73,17 @@ const PostForm = ({actionHandle, buttonName, formState}) => {
                 {...register("author", { required: true, minLength: 3 })}
                 value={form.author} placeholder="Enter author" onChange={updateFields}  />
                 {errors.author && <small className="d-block form-text text-danger mt-2">This field should be at least 3 characters long</small>}                
-            </Form.Group>   
+            </Form.Group> 
+            <Form.Group className="mb-3" >
+                <Form.Label>Category</Form.Label>
+                <Form.Select id="categoryId" 
+                {...register("categoryId", { required: true})}
+                value={form.categoryId}  onChange={updateFields} >
+                        <option value="">Choose category</option>
+                        { categoriesList.map(category => <option value={category.id}>{category.categoryName}</option>) } 
+                    </Form.Select>                 
+                {errors.categoryId && <small className="d-block form-text text-danger mt-2">This option should be chosen</small>}                
+            </Form.Group>             
             <Form.Group className="mb-3">
                 <Form.Label>Published &nbsp; </Form.Label>
                 <DatePicker dateFormat="yyyy-MM-dd"

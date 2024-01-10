@@ -1,0 +1,14 @@
+@import '../../../styles/settings.scss';
+
+.right {
+    float: right;
+    padding: 0px;
+}
+
+a.butLink {
+    padding: 0;
+margin: 0;
+    &:hover {
+        color: $color-light;
+    }
+}
