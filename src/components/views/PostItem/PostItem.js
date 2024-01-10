@@ -4,6 +4,7 @@ import styles from './PostItem.module.scss';
 import { NavLink } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import clsx from 'clsx';
+import date2string from '../../../utils/dateToStr';
 
 const PostItem = (props) => {
     const url = "/post/" + props.id;
@@ -14,7 +15,7 @@ const PostItem = (props) => {
             <h5 className={styles.cardTitle}>{props.title}</h5>
             <p className={styles.author}>
                 <span className={styles.bold}>Autor:</span> {props.author}<br />
-                <span className={styles.bold}>Published:</span> {props.publishedDate}
+                <span className={styles.bold}>Published:</span> {date2string(props.publishedDate, '-')}
             </p>
             <p className={styles.description}>{props.shortDescription}</p>
             <Button variant="primary" className={styles.but}>

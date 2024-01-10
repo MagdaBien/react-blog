@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removePost } from '../../../redux/postsRedux';
+import date2string from '../../../utils/dateToStr';
 
 const Post = () => {
 
@@ -43,9 +44,9 @@ const Post = () => {
         <div>
             <p className={styles.author}>
                 <span className={styles.bold}>Autor:</span> {post.author}<br />
-                <span className={styles.bold}>Published:</span> {post.publishedDate}
+                <span className={styles.bold}>Published: </span> {date2string(post.publishedDate, '-')}
             </p>
-            <p className={styles.description}>{post.content}</p>
+            <p dangerouslySetInnerHTML={{ __html: post.content }} className={styles.description} />
         </div>
 
         <Modal show={show} onHide={handleClose}>

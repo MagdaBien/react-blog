@@ -2,49 +2,93 @@ import styles from './PostForm.module.scss';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import DatePicker from "react-datepicker";
+import date2string from '../../../utils/dateToStr';
+import { useForm } from "react-hook-form";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PostForm = ({actionHandle, buttonName, formState}) => {
+
+    const { register, handleSubmit: validate, formState: { errors } } = useForm();    
 
     const [form, setForm] = useState({
         ...formState
     });
+    const [contentError, setContentError] = useState(false);
+    const [dateError, setDateError] = useState(false);
 
     const updateFields = e => {
         setForm({
             ...form,
-            [e.target.name]: e.target.value,
+            [e.target.id]: e.target.value,
         });
     }
 
+    const updateContent = e => {
+        setForm({
+            ...form,
+            content: e,
+        });
+    } 
+    
+    const updateDate = e => {
+        console.log(e, date2string(e, '-'));
+        setForm({
+            ...form,
+            publishedDate: e,
+        });
+    }     
+
     const actionHandler = e => {
-        e.preventDefault();
-        actionHandle(form);     
+        console.log(form, form.publishedDate);
+        setContentError(!form.content)
+        setDateError(!form.publishedDate)
+        if(form.content && form.publishedDate) {
+        actionHandle(form);
+        }
     }
+    
+    
+    
 
     return(
         <div  className={styles.smallerForm}>
-        <Form onSubmit={actionHandler}>
+        <Form onSubmit={validate(actionHandler)}>
             <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
-                <Form.Control type="text" name="title" value={form.title} placeholder="Enter title" onChange={updateFields} />
+                <Form.Control type="text" id="title" 
+                {...register("title", { required: true, minLength: 3 })}
+                value={form.title} placeholder="Enter title" onChange={updateFields} />
+                {errors.title && <small className="d-block form-text text-danger mt-2">This field should be at least 3 characters long</small>}
             </Form.Group>
             <Form.Group className="mb-3" >
                 <Form.Label>Author</Form.Label>
-                <Form.Control type="text" name="author" value={form.author} placeholder="Enter author" onChange={updateFields}  />
+                <Form.Control type="text" id="author" 
+                {...register("author", { required: true, minLength: 3 })}
+                value={form.author} placeholder="Enter author" onChange={updateFields}  />
+                {errors.author && <small className="d-block form-text text-danger mt-2">This field should be at least 3 characters long</small>}                
             </Form.Group>   
             <Form.Group className="mb-3">
-                <Form.Label>Published</Form.Label>
-                <Form.Control type="text"  name="publishedDate" value={form.publishedDate} placeholder="Enter the publication date"  onChange={updateFields} />
+                <Form.Label>Published &nbsp; </Form.Label>
+                <DatePicker dateFormat="yyyy-MM-dd"
+                id="publishedDate" selected={form.publishedDate} onChange={(date) => updateDate(date)} />
+                {dateError && <small className="d-block form-text text-danger mt-2">Content can't be empty</small>}
             </Form.Group>   
             <Form.Group className="mb-3">
                 <Form.Label>Content</Form.Label>
-                <Form.Control name="content" as="textarea"  className={styles.longTextarea}  onChange={updateFields} value={form.content} placeholder="Enter full content of the post" />
+                <ReactQuill theme="snow" id="content" value={form.content} onChange={updateContent}   /> 
+                {contentError && <small className="d-block form-text text-danger mt-2">Content can't be empty</small>}
             </Form.Group>   
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-3 clear">
                 <Form.Label>Short description</Form.Label>
-                <Form.Control name="shortDescription" as="textarea" onChange={updateFields} value={form.shortDescription} placeholder="Enter short description" />
-            </Form.Group>                      
+                <Form.Control id="shortDescription" as="textarea" 
+                {...register("shortDescription", { required: true, minLength: 20 })}                
+                onChange={updateFields} value={form.shortDescription} placeholder="Enter short description" />
+                {errors.shortDescription && <small className="d-block form-text text-danger mt-2">This field should be at least 20 characters long</small>}                  
+            </Form.Group>                     
             <Button variant="primary" type="submit">
                 {buttonName}
             </Button>                             
